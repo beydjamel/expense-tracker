@@ -3,7 +3,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const pool = require("../db");
-
+const { requireAuth } = require("../middleware/auth");
 if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET is missing in .env");
 }
@@ -77,6 +77,22 @@ router.post("/login", async (req, res) => {
 
     const { password_hash, ...user } = found;
     res.json({ user, token: signToken(user) });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/me", requireAuth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, name, email, role FROM users WHERE id = $1",
+      [req.user.id],
+    );
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ user: result.rows[0] });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Server error" });
