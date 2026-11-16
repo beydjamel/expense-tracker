@@ -5,6 +5,8 @@ const pool = require("./db");
 const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactions");
 const categoryRoutes = require("./routes/categories");
+const workerRoutes = require("./routes/workers");
+const expenseRoutes = require("./routes/expenses");
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/workers", workerRoutes);
+app.use("/api/expenses", expenseRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
