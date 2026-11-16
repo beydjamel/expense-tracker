@@ -4,6 +4,7 @@ require("dotenv").config();
 const pool = require("./db");
 const authRoutes = require("./routes/auth");
 const transactionRoutes = require("./routes/transactions");
+const categoryRoutes = require("./routes/categories");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
