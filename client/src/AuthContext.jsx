@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api, clearToken, getToken, setToken } from "./api";
 
 const AuthContext = createContext(null);
@@ -33,10 +39,10 @@ export function AuthProvider({ children }) {
     setUser(data.user);
   }
 
-  function logout() {
+  const logout = useCallback(() => {
     clearToken();
     setUser(null);
-  }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
