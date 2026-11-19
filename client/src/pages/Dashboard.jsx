@@ -4,6 +4,8 @@ import { useAuth } from "../AuthContext";
 import { currentMonth, money } from "../format";
 import SummaryCards from "../components/SummaryCards";
 import TransactionForm from "../components/TransactionForm";
+import ExpensesChart from "../components/ExpensesChart";
+import WorkersPanel from "../components/WorkersPanel";
 
 const inputClass =
   "rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100";
@@ -167,6 +169,7 @@ export default function Dashboard() {
         )}
 
         <SummaryCards summary={summary} />
+        <ExpensesChart data={summary?.expenses_by_category} />
 
         <form
           onSubmit={handleAddCategory}
@@ -185,7 +188,7 @@ export default function Dashboard() {
             Add category
           </button>
         </form>
-
+        <WorkersPanel />
         <section className="rounded-2xl bg-white p-4 shadow-sm">
           <h2 className="mb-2 font-semibold text-slate-800">Transactions</h2>
 
