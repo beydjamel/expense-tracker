@@ -63,8 +63,8 @@ export default function WorkersPanel() {
     <section className="space-y-3 rounded-2xl bg-white p-4 shadow-sm">
       <h2 className="font-semibold text-slate-800">Workers</h2>
       <p className="text-sm text-slate-500">
-        Workers can only log expenses. They cannot see income, balance or edit
-        anything.
+        Workers can add income or expenses, but cannot edit or delete anything,
+        and cannot see the balance.
       </p>
 
       {workers.length === 0 ? (

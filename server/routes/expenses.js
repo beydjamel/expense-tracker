@@ -40,7 +40,12 @@ router.post("/", async (req, res) => {
   }
 
   const { amount, note, category_id } = req.body;
+  const type = req.body.type ?? "expense";
   const parsedAmount = Number(amount);
+
+  if (!["income", "expense"].includes(type)) {
+    return res.status(400).json({ error: "Invalid type" });
+  }
 
   if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
     return res.status(400).json({ error: "Positive amount is required" });
@@ -70,10 +75,17 @@ router.post("/", async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO transactions (user_id, category_id, type, amount, note, created_by)
-       VALUES ($1, $2, 'expense', $3, $4, $5)
+              VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING id, category_id, type, amount,
                  to_char(date, 'YYYY-MM-DD') AS date, note`,
-      [adminId, category_id ?? null, parsedAmount, note ?? null, req.user.id],
+      [
+        adminId,
+        category_id ?? null,
+        type,
+        parsedAmount,
+        note ?? null,
+        req.user.id,
+      ],
     );
     res.status(201).json({ expense: result.rows[0] });
   } catch (err) {

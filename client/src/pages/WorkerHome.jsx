@@ -8,7 +8,12 @@ const inputClass =
 export default function WorkerHome() {
   const { user, logout } = useAuth();
   const [categories, setCategories] = useState([]);
-  const [form, setForm] = useState({ amount: "", note: "", category_id: "" });
+  const [form, setForm] = useState({
+    type: "expense",
+    amount: "",
+    note: "",
+    category_id: "",
+  });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -35,14 +40,15 @@ export default function WorkerHome() {
       await api("/expenses", {
         method: "POST",
         body: {
+          type: form.type,
           amount: Number(form.amount),
           note: form.note.trim() || null,
           category_id:
             form.category_id === "" ? null : Number(form.category_id),
         },
       });
-      setForm({ amount: "", note: "", category_id: "" });
-      setMessage("Expense saved");
+      setForm({ type: form.type, amount: "", note: "", category_id: "" });
+      setMessage("saved");
     } catch (err) {
       if (err.status === 401) logout();
       else setError(err.message);
@@ -73,6 +79,16 @@ export default function WorkerHome() {
           <h2 className="font-semibold text-slate-800">
             Hi {user.name}, log an expense
           </h2>
+
+          <select
+            className={inputClass}
+            name="type"
+            value={form.type}
+            onChange={update}
+          >
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
 
           <input
             className={inputClass}
