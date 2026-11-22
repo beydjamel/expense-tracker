@@ -2,7 +2,7 @@
 
 A full-stack web app to track income and expenses, built for small businesses such as a cafe: the owner (admin) sees everything, while an employee (worker) can only log expenses.
 
-**Live demo:** https://expense-tracker-5fmy.onrender.com
+**Live demo:** <https://expense-tracker-5fmy.onrender.com>
 
 > The demo runs on free hosting. If it has been idle, the first request can take up to ~50 seconds while the server wakes up.
 
@@ -31,7 +31,7 @@ A full-stack web app to track income and expenses, built for small businesses su
 
 ## Architecture
 
-```
+```text
 React app (Static Site)  --HTTPS-->  Express API (Web Service)  -->  PostgreSQL (Neon)
 ```
 
@@ -77,7 +77,7 @@ git clone https://github.com/beydjamel/expense-tracker.git
 cd expense-tracker
 ```
 
-**Server**
+### Server
 
 ```bash
 cd server
@@ -86,7 +86,7 @@ npm install
 
 Create `server/.env`:
 
-```
+```dotenv
 DATABASE_URL=postgresql://USER:PASSWORD@HOST/DB?sslmode=verify-full
 JWT_SECRET=a-long-random-string
 ```
